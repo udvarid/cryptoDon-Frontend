@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
+  styleUrls: ['./app.header.css'],
   templateUrl: './header.component.html'
 })
 export class HeaderComponent implements OnInit, OnDestroy {

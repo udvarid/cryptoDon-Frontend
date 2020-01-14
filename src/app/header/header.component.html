@@ -1,24 +1,11 @@
-<nav class="navbar navbar-default" style="background-color: rgb(62, 62, 117); color: white;">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a routerLink="/" class="navbar-brand" style="background-color: rgb(62, 62, 117); color: rgb(212, 202, 231);">Crypto Don</a>
-    </div>
-
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li routerLinkActive="active">
-            <a routerLink="/info" style="background-color: rgb(62, 62, 117); color: white;">Info</a>
-        </li>    
-        <li routerLinkActive="active" *ngIf="!isAuthenticated">
-          <a routerLink="/auth" style="background-color: rgb(62, 62, 117); color: white;">Login / Sign Up</a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="isAuthenticated">
-          <span>{{ userName }}</span>
-          <a style="cursor: pointer; background-color: rgb(62, 62, 117); color: white;" (click)="onLogout()">Logout</a>          
-        </li>
-      </ul>      
-    </div>
-  </div>
-</nav>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <h1>Crypto Don</h1>    
+    <a mat-button [routerLink]="'/info'"> Info </a>
+    <span class="example-fill-remaining-space"></span>
+    <div>
+      <a mat-button *ngIf="!isAuthenticated"[routerLink]="'/auth'"> Login / Sign Up </a>                      
+      <a mat-button *ngIf="isAuthenticated" (click)="onLogout()"> Logout </a>      
+    </div>        
+  </mat-toolbar-row>
+</mat-toolbar>
