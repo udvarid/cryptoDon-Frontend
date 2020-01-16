@@ -16,6 +16,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppHttpInterceptor } from './shared/interceptor/http.interceptor';
 import { MaterialsModule } from './shared/materials.module';
+import { CryptoComponent } from './crypto/crypto.component';
 
 
 @Injectable()
@@ -37,7 +38,8 @@ export class XhrInterceptor implements HttpInterceptor {
     DropdownDirective,
     InfoComponent,
     LoadingSpinnerComponent,
-    ModalComponent
+    ModalComponent,
+    CryptoComponent
   ],
   imports: [
     BrowserModule,
