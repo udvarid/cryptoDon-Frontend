@@ -54,7 +54,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.isLoginMode = !this.isLoginMode;
   }
 
-  onSubmit(form: NgForm) {
+  async onSubmit(form: NgForm) {
     if (!form.valid) {
       return;
     }
@@ -67,9 +67,8 @@ export class AuthComponent implements OnInit, OnDestroy {
         password: form.value.password,
         username: form.value.email,
       };
-      this.authService.onLogin(userLogin).subscribe( () => {
-        this.authService.authenticate();
-      });
+      await this.authService.onLogin(userLogin).toPromise();
+      this.authService.authenticate();
     } else {
       this.toastrService.info('Registration is successfull, please log in!', '', {
         timeOut: 5000
@@ -79,10 +78,8 @@ export class AuthComponent implements OnInit, OnDestroy {
         password: form.value.password,
         fullName: form.value.fullName,
       };
-      this.authService.onRegister(userRegister).subscribe( () => {
-        this.router.navigate(['/info']);
-      })
-      ;
+      await this.authService.onRegister(userRegister).toPromise();
+      this.router.navigate(['/info']);
     }
 
     form.reset();

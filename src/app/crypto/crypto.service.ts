@@ -16,8 +16,7 @@ export class CryptoService {
 
     public collectData() {
         const header = new HttpHeaders({});
-        this.http.get(this.pre + '/api/exchange/getCandle', {headers: header})
-        .subscribe();
+        this.http.get(this.pre + '/api/exchange/getCandle', {headers: header}).toPromise().then();
 
     }
 
