@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Injectable } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,18 +17,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppHttpInterceptor } from './shared/interceptor/http.interceptor';
 import { MaterialsModule } from './shared/materials.module';
 import { CryptoComponent } from './crypto/crypto.component';
-
-
-@Injectable()
-export class XhrInterceptor implements HttpInterceptor {
-
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const xhr = req.clone({
-      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
-    });
-    return next.handle(xhr);
-  }
-}
+import { XhrInterceptor } from './shared/interceptor/http_xhr.interceptor';
+import { HttpRequestInterceptor } from './shared/interceptor/http_credential.interceptor';
 
 @NgModule({
   declarations: [
@@ -57,7 +47,8 @@ export class XhrInterceptor implements HttpInterceptor {
   ],
   providers: [AuthService,
              { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true },
-             { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true }
+             { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
+             { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

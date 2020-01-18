@@ -26,7 +26,7 @@ export class AuthService {
 
     const header = new HttpHeaders({});
 
-    this.http.get(this.pre + '/api/user/user', {headers: header,  withCredentials: true })
+    this.http.get(this.pre + '/api/user/user', {headers: header})
     .subscribe(response => {
       if (response && response['name']) {
           this.getUserDetail(response['name']);
@@ -49,7 +49,7 @@ export class AuthService {
 
   getUserDetail(email: string) {
     const header = new HttpHeaders({});
-    this.http.get(this.pre + '/api/user/oneUser?email=' + email, {headers: header,  withCredentials: true })
+    this.http.get(this.pre + '/api/user/oneUser?email=' + email, {headers: header})
     .subscribe((response: UserDto) => {
       this.userName.next(response);
       this.userNameDto = response;
@@ -59,7 +59,7 @@ export class AuthService {
   onLogout() {
     const header = new HttpHeaders({});
     this.authenticated = false;
-    this.http.post(this.pre + '/logout', {}, {headers: header,  withCredentials: true }).subscribe();
+    this.http.post(this.pre + '/logout', {}, {headers: header}).subscribe();
     this.toastrService.warning('You have logged out!', '', {
       timeOut: 5000
     });
@@ -83,7 +83,7 @@ export class AuthService {
           username: loginData.username,
           password: loginData.password
         },
-        {headers: header,  withCredentials: true }
+        {headers: header}
       );
   }
 
@@ -97,7 +97,7 @@ export class AuthService {
           password: registerData.password,
           fullName: registerData.fullName
         },
-        {headers: header,  withCredentials: true }
+        {headers: header}
       );
   }
 
