@@ -19,6 +19,7 @@ import { MaterialsModule } from './shared/materials.module';
 import { CryptoComponent } from './crypto/crypto.component';
 import { XhrInterceptor } from './shared/interceptor/http_xhr.interceptor';
 import { HttpRequestInterceptor } from './shared/interceptor/http_credential.interceptor';
+import { GraphQLModule } from './graphQL.module';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { HttpRequestInterceptor } from './shared/interceptor/http_credential.int
     HttpClientModule,
     ReactiveFormsModule,
     MaterialsModule,
+    GraphQLModule,
     ToastrModule.forRoot({
       timeOut: 2000,
       positionClass: 'toast-bottom-right',
