@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CryptoService } from './crypto.service';
+import { Candle } from '../shared/dto/candle.model';
 
 
 @Component({
@@ -8,6 +9,8 @@ import { CryptoService } from './crypto.service';
   styleUrls: ['./crypto.component.css']
 })
 export class CryptoComponent implements OnInit {
+
+  bloombergCandles: Candle[];
 
   constructor(private cryptoService: CryptoService) { }
 
@@ -18,8 +21,11 @@ export class CryptoComponent implements OnInit {
     this.cryptoService.collectData();
   }
 
-  public getRecentCrptoData() {
-    this.cryptoService.getBloombergData();
+  getRecentCrptoData() {
+    this.cryptoService.getBloombergData().subscribe(result => {
+      this.bloombergCandles = result;
+      console.log(this.bloombergCandles);
+    });
   }
 
 }
