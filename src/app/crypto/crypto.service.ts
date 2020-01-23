@@ -12,11 +12,12 @@ import { Candle } from '../shared/dto/candle.model';
 
 
 const homePageQuery = gql
-`query homePageQuery{
+`{
     actualCandles {
         currencyPair,
         time,
         close
+    }
 }`;
 
 @Injectable({ providedIn: 'root' })
