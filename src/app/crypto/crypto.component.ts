@@ -11,6 +11,7 @@ import { Candle } from '../shared/dto/candle.model';
 export class CryptoComponent implements OnInit {
 
   bloombergCandles: Candle[];
+  candleHistory: Candle[];
 
   constructor(private cryptoService: CryptoService) { }
 
@@ -25,6 +26,14 @@ export class CryptoComponent implements OnInit {
     this.cryptoService.getBloombergData().subscribe(result => {
       this.bloombergCandles = result;
       console.log(this.bloombergCandles);
+    });
+  }
+
+  getCryptoHistoryData() {
+    const cryptoPair = 'BTC/USD';
+    this.cryptoService.getCryptoHistoryData(cryptoPair).subscribe(result => {
+      this.candleHistory = result;
+      console.log(this.candleHistory);
     });
   }
 

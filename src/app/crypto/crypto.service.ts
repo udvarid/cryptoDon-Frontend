@@ -19,6 +19,16 @@ const bloombergQuery = gql
     }
 }`;
 
+const cryptoHistoryQuery = gql
+`query cryptoHistoryQuery($currencyPair: currencyPair){
+    candleHistory(currencyPair:$currencyPair, lastNumberOfCandles: 10) {
+        currencyPair,
+        time,
+        close,
+        open
+    }
+}`;
+
 @Injectable({ providedIn: 'root' })
 
 export class CryptoService {
@@ -39,6 +49,14 @@ export class CryptoService {
         return this.apollo.watchQuery({query: bloombergQuery})
             .valueChanges
             .pipe(map(result => result.data['actualCandles']));
-}
+    }
 
+    getCryptoHistoryData(cryptoPair: string): Observable<Candle[]> {
+        return this.apollo.watchQuery({
+                                        query: cryptoHistoryQuery,
+                                        variables: { currencyPair: cryptoPair }
+                                    })
+            .valueChanges
+            .pipe(map(result => result.data['candleHistory']));
+    }
 }
