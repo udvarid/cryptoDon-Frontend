@@ -1,5 +1,10 @@
 <p>crypto works!</p>
 <a mat-button (click)="collectCryptoData()"> Collect Data </a>   
 <a mat-button (click)="getRecentCrptoData()"> Bloomberg </a>   
-<a mat-button (click)="getCryptoHistoryData()"> History </a>   
+<hr>
+<a mat-button (click)="getCryptoHistoryData('BTC/USD')"> History: BTC</a>   
+<a mat-button (click)="getCryptoHistoryData('ETH/USD')"> History: ETH</a>   
+<a mat-button (click)="getCryptoHistoryData('XMR/USD')"> History: XMR</a>   
+<a mat-button (click)="getCryptoHistoryData('LTC/USD')"> History: LTC</a>   
+<a mat-button (click)="getCryptoHistoryData('DASH/USD')"> History: DASH</a>   
 

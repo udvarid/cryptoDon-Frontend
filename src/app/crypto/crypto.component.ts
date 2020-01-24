@@ -29,9 +29,8 @@ export class CryptoComponent implements OnInit {
     });
   }
 
-  getCryptoHistoryData() {
-    const cryptoPair = 'BTC/USD';
-    this.cryptoService.getCryptoHistoryData(cryptoPair).subscribe(result => {
+  getCryptoHistoryData(cryptoPair: string) {
+    this.cryptoService.getCryptoHistoryData(cryptoPair, 96).subscribe(result => {
       this.candleHistory = result;
       console.log(this.candleHistory);
     });

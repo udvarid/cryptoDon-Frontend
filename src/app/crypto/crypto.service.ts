@@ -20,12 +20,16 @@ const bloombergQuery = gql
 }`;
 
 const cryptoHistoryQuery = gql
-`query cryptoHistoryQuery($currencyPair: currencyPair){
-    candleHistory(currencyPair:$currencyPair, lastNumberOfCandles: 10) {
+`query cryptoHistoryQuery($currencyPair: String, $lastNumberOfCandles: Int){
+    candleHistory(currencyPair:$currencyPair, lastNumberOfCandles: $lastNumberOfCandles) {
         currencyPair,
         time,
         close,
-        open
+        open,
+        high,
+        low,
+        vwap,
+        volume
     }
 }`;
 
@@ -51,10 +55,10 @@ export class CryptoService {
             .pipe(map(result => result.data['actualCandles']));
     }
 
-    getCryptoHistoryData(cryptoPair: string): Observable<Candle[]> {
+    getCryptoHistoryData(cryptoPair: string, numberOfCandles: number): Observable<Candle[]> {
         return this.apollo.watchQuery({
                                         query: cryptoHistoryQuery,
-                                        variables: { currencyPair: cryptoPair }
+                                        variables: { currencyPair: cryptoPair, lastNumberOfCandles: numberOfCandles }
                                     })
             .valueChanges
             .pipe(map(result => result.data['candleHistory']));
