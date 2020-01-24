@@ -4,10 +4,10 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import gql from 'graphql-tag';
-import { Observable } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import {map} from 'rxjs/operators';
 import { Candle } from '../shared/dto/candle.model';
+import { Subject } from 'rxjs';
 
 const bloombergQuery = gql
 `query bloombergQuery{
@@ -38,6 +38,10 @@ const cryptoHistoryQuery = gql
 export class CryptoService {
 
     pre: string;
+    bloombergCandles: Candle[];
+    candleHistory: Candle[];
+    newBloombergCandles = new Subject<Candle[]>();
+    newHistoryCandles = new Subject<Candle[]>();
 
     constructor(private http: HttpClient, private router: Router,
                 private toastrService: ToastrService, private apollo: Apollo) {
@@ -49,18 +53,28 @@ export class CryptoService {
         this.http.get(this.pre + '/api/exchange/getCandle', {headers: header}).toPromise().then();
     }
 
-    getBloombergData(): Observable<Candle[]> {
-        return this.apollo.watchQuery({query: bloombergQuery})
+    getBloombergData() {
+        this.apollo.watchQuery({query: bloombergQuery})
             .valueChanges
-            .pipe(map(result => result.data['actualCandles']));
+            .pipe(map(result => result.data['actualCandles']))
+            .subscribe(result => {
+                this.bloombergCandles = result;
+                this.newBloombergCandles.next(result);
+                console.log(this.bloombergCandles);
+            });
     }
 
-    getCryptoHistoryData(cryptoPair: string, numberOfCandles: number): Observable<Candle[]> {
-        return this.apollo.watchQuery({
-                                        query: cryptoHistoryQuery,
-                                        variables: { currencyPair: cryptoPair, lastNumberOfCandles: numberOfCandles }
-                                    })
+    getCryptoHistoryData(cryptoPair: string, numberOfCandles: number) {
+        this.apollo.watchQuery({
+                                query: cryptoHistoryQuery,
+                                variables: { currencyPair: cryptoPair, lastNumberOfCandles: numberOfCandles }
+                                })
             .valueChanges
-            .pipe(map(result => result.data['candleHistory']));
+            .pipe(map(result => result.data['candleHistory']))
+            .subscribe(result => {
+                this.candleHistory = result;
+                this.newHistoryCandles.next(result);
+                console.log(this.candleHistory);
+            });
     }
 }

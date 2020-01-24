@@ -23,17 +23,11 @@ export class CryptoComponent implements OnInit {
   }
 
   getRecentCrptoData() {
-    this.cryptoService.getBloombergData().subscribe(result => {
-      this.bloombergCandles = result;
-      console.log(this.bloombergCandles);
-    });
+    this.cryptoService.getBloombergData();
   }
 
   getCryptoHistoryData(cryptoPair: string) {
-    this.cryptoService.getCryptoHistoryData(cryptoPair, 96).subscribe(result => {
-      this.candleHistory = result;
-      console.log(this.candleHistory);
-    });
+    this.cryptoService.getCryptoHistoryData(cryptoPair, 96);
   }
 
 }

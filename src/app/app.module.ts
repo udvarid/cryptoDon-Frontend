@@ -20,6 +20,8 @@ import { CryptoComponent } from './crypto/crypto.component';
 import { XhrInterceptor } from './shared/interceptor/http_xhr.interceptor';
 import { HttpRequestInterceptor } from './shared/interceptor/http_credential.interceptor';
 import { GraphQLModule } from './graphQL.module';
+import { CandleChartComponent } from './shared/candle-chart/candle-chart.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { GraphQLModule } from './graphQL.module';
     InfoComponent,
     LoadingSpinnerComponent,
     ModalComponent,
-    CryptoComponent
+    CryptoComponent,
+    CandleChartComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { GraphQLModule } from './graphQL.module';
     ReactiveFormsModule,
     MaterialsModule,
     GraphQLModule,
+    NgxChartsModule,
     ToastrModule.forRoot({
       timeOut: 2000,
       positionClass: 'toast-bottom-right',
