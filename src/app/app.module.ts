@@ -22,6 +22,7 @@ import { HttpRequestInterceptor } from './shared/interceptor/http_credential.int
 import { GraphQLModule } from './graphQL.module';
 import { CandleChartComponent } from './shared/candle-chart/candle-chart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CandleBloombergComponent } from './shared/candle-bloomberg/candle-bloomberg.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     LoadingSpinnerComponent,
     ModalComponent,
     CryptoComponent,
-    CandleChartComponent
+    CandleChartComponent,
+    CandleBloombergComponent
   ],
   imports: [
     BrowserModule,

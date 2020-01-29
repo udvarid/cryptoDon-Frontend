@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CryptoService } from 'src/app/crypto/crypto.service';
 import { Candle } from '../dto/candle.model';
@@ -15,7 +15,10 @@ export class CandleChartComponent implements OnInit, OnDestroy {
   private historyWatcher: Subscription;
   private candleHistory: Candle[];
 
-  view: any[] = [1500, 600];
+  chartStep: number;
+  chartStepMultiplier: number;
+
+  view: any[];
   multi = [];
 
   legend = true;
@@ -38,6 +41,9 @@ export class CandleChartComponent implements OnInit, OnDestroy {
   constructor(private cryptoService: CryptoService) {}
 
   ngOnInit() {
+    this.chartStep = 100;
+    this.chartStepMultiplier = window.innerWidth > 1600 ? 3 : 2;
+    this.view = [this.chartStep * this.chartStepMultiplier * 5, this.chartStep * this.chartStepMultiplier * 2];
     this.historyWatcher = this.cryptoService.newHistoryCandles
               .subscribe((result: Candle[]) => {
                 this.candleHistory = result.reverse();
@@ -49,51 +55,48 @@ export class CandleChartComponent implements OnInit, OnDestroy {
   }
 
   draw(candles: Candle[]) {
+    const candleTypes = [
+      {name : 'High',
+       column : 'high'},
+       {name : 'Close',
+       column : 'close'},
+       {name : 'Low',
+       column : 'low'}
+    ];
     this.multi = [];
-    const transformedData = {
-      name: 'Open',
-      series: []
-    };
-    candles.forEach( candle => {
-      const onePoint = {
-        name: candle.time.substr(candle.time.length - 5),
-        value: candle.open
-      };
-      transformedData.series.push(onePoint);
-    });
-    this.multi.push(transformedData);
 
-    const transformedData2 = {
-      name: 'Close',
-      series: []
-    };
-    candles.forEach( candle => {
-      const onePoint = {
-        name: candle.time.substr(candle.time.length - 5),
-        value: candle.close
+    candleTypes.forEach( ct => {
+      const transformedData = {
+        name: ct.name,
+        series: []
       };
-      transformedData2.series.push(onePoint);
+      candles.forEach( candle => {
+        const onePoint = {
+          name: candle.time.substr(candle.time.length - 11).replace('T', ' '),
+          value: candle[ct.column]
+        };
+        transformedData.series.push(onePoint);
+      });
+      this.multi.push(transformedData);
     });
-    this.multi.push(transformedData2);
 
     this.calculateMinMax();
   }
 
   calculateMinMax() {
-    let maxCandle = 1000000000;
-    let minCandle = 0;
+    let minCandle = 1000000000;
+    let maxCandle = 0;
     this.candleHistory.forEach(candle => {
-      if (Math.min(candle.open, candle.close) > minCandle) {
-        minCandle = Math.min(candle.open, candle.close);
+      if (candle.low < minCandle) {
+        minCandle = candle.low;
       }
-      if (Math.max(candle.open, candle.close) < maxCandle) {
-        maxCandle = Math.max(candle.open, candle.close);
+      if (candle.high > maxCandle) {
+        maxCandle = candle.high;
       }
     });
-    this.maxValueY = maxCandle * 1.1;
-    this.minValueY = minCandle * 0.9;
-    console.log(maxCandle);
-    console.log(minCandle);
+    const band = 0.005;
+    this.maxValueY = Math.ceil(maxCandle * (1 + band));
+    this.minValueY = Math.ceil(minCandle * (1 - band)) - 1;
   }
 
 

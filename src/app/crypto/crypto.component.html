@@ -1,12 +1,25 @@
 <p>crypto works!</p>
 <a mat-button (click)="collectCryptoData()"> Collect Data </a>   
-<a mat-button (click)="getRecentCrptoData()"> Bloomberg </a>   
+<a mat-button (click)="getRecentCrptoData()"> Bloomberg </a> 
+<hr>
+<app-candle-bloomberg></app-candle-bloomberg>  
 <hr>
 <a mat-button (click)="getCryptoHistoryData('BTC/USD')"> History: BTC</a>   
 <a mat-button (click)="getCryptoHistoryData('ETH/USD')"> History: ETH</a>   
 <a mat-button (click)="getCryptoHistoryData('XMR/USD')"> History: XMR</a>   
 <a mat-button (click)="getCryptoHistoryData('LTC/USD')"> History: LTC</a>   
 <a mat-button (click)="getCryptoHistoryData('DASH/USD')"> History: DASH</a>  
+<br>
+<label id="example-radio-group-label">Period length:</label>
+<mat-radio-group
+  aria-labelledby="example-radio-group-label"
+  class="example-radio-group"
+  [(ngModel)]="favoritePeriod">
+  <mat-radio-button class="example-radio-button" *ngFor="let period of periods" [value]="period">
+    {{period}}
+  </mat-radio-button>
+</mat-radio-group>
+
 <hr>
 <app-candle-chart></app-candle-chart> 
 

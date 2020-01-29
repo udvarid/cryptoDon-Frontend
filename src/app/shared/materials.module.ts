@@ -4,7 +4,7 @@ import {
   MatToolbarModule, MatMenuModule, MatDividerModule,
   MatTableModule, MatPaginatorModule, MatTooltipModule,
   MatInputModule, MatFormFieldModule, MatDialogModule,
-  MatSnackBarModule, MatProgressSpinnerModule, MatProgressBarModule, MatSidenavModule, MatListModule
+  MatSnackBarModule, MatProgressSpinnerModule, MatProgressBarModule, MatSidenavModule, MatListModule, MatRadioModule
 } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatDividerModule,
     MatTableModule,
     MatListModule,
+    MatRadioModule,
     MatPaginatorModule,
     MatTooltipModule,
     MatInputModule,
@@ -44,6 +45,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     MatDividerModule,
     MatTableModule,
+    MatRadioModule,
     MatListModule,
     MatPaginatorModule,
     MatTooltipModule,
