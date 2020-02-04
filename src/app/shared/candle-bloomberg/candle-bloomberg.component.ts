@@ -18,7 +18,6 @@ export class CandleBloombergComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.bloombergWatcher = this.cryptoService.newBloombergCandles.subscribe(candle => {
       this.bloombergCandle = candle;
-      console.log(this.bloombergCandle);
     });
   }
 

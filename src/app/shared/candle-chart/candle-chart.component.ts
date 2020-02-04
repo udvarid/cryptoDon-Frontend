@@ -46,7 +46,7 @@ export class CandleChartComponent implements OnInit, OnDestroy {
     this.view = [this.chartStep * this.chartStepMultiplier * 5, this.chartStep * this.chartStepMultiplier * 2];
     this.historyWatcher = this.cryptoService.newHistoryCandles
               .subscribe((result: Candle[]) => {
-                this.candleHistory = result.reverse();
+                this.candleHistory = result;
                 this.draw(this.candleHistory);
               }) ;
   }

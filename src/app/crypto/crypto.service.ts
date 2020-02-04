@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 import { Apollo } from 'apollo-angular';
 import {map} from 'rxjs/operators';
 import { Candle } from '../shared/dto/candle.model';
-import { Subject } from 'rxjs';
+import { Subject, Subscription, ObjectUnsubscribedError } from 'rxjs';
 
 const bloombergQuery = gql
 `query bloombergQuery{
@@ -42,6 +42,8 @@ export class CryptoService {
     candleHistory: Candle[];
     newBloombergCandles = new Subject<Candle[]>();
     newHistoryCandles = new Subject<Candle[]>();
+    bloombergQuerySubscription = new Subscription();
+    historyQuerySubscription = new Subscription();
 
     constructor(private http: HttpClient, private router: Router,
                 private toastrService: ToastrService, private apollo: Apollo) {
@@ -54,7 +56,8 @@ export class CryptoService {
     }
 
     getBloombergData() {
-        this.apollo.watchQuery({query: bloombergQuery})
+        this.unsubscribe();
+        this.bloombergQuerySubscription = this.apollo.watchQuery({query: bloombergQuery})
             .valueChanges
             .pipe(map(result => result.data['actualCandles']))
             .subscribe(result => {
@@ -64,7 +67,8 @@ export class CryptoService {
     }
 
     getCryptoHistoryData(cryptoPair: string, numberOfCandles: number, period: number) {
-        this.apollo.watchQuery({
+        this.unsubscribe();
+        this.historyQuerySubscription = this.apollo.watchQuery({
                                 query: cryptoHistoryQuery,
                                 variables: { currencyPair: cryptoPair,
                                              lastNumberOfCandles: numberOfCandles,
@@ -76,5 +80,10 @@ export class CryptoService {
                 this.candleHistory = result;
                 this.newHistoryCandles.next(result);
             });
+    }
+
+    unsubscribe() {
+        this.bloombergQuerySubscription.unsubscribe();
+        this.historyQuerySubscription.unsubscribe();
     }
 }
