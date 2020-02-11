@@ -2,7 +2,8 @@
   <mat-toolbar-row>
     <h1>Crypto Don</h1>    
     <a mat-button [routerLink]="'/info'"> Info </a>
-    <a mat-button [routerLink]="'/crypto'"> Crypto </a>                      
+    <a mat-button [routerLink]="'/crypto'"> Crypto </a>    
+    <a mat-button *ngIf="isAuthenticated" [routerLink]="'/user'"> User </a>                      
     <span class="example-fill-remaining-space"></span>
     <div>
       <a mat-button *ngIf="!isAuthenticated"[routerLink]="'/auth'"> Login / Sign Up </a>                      

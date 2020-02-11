@@ -23,6 +23,7 @@ import { GraphQLModule } from './graphQL.module';
 import { CandleChartComponent } from './shared/candle-chart/candle-chart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CandleBloombergComponent } from './shared/candle-bloomberg/candle-bloomberg.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CandleBloombergComponent } from './shared/candle-bloomberg/candle-bloom
     ModalComponent,
     CryptoComponent,
     CandleChartComponent,
-    CandleBloombergComponent
+    CandleBloombergComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
