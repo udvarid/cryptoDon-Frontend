@@ -1,1 +1,11 @@
-<p>user works!</p>
+<div *ngIf="fullUser">
+    <p>You are {{ fullUser.fullname }}</p>
+    <ul class="list-wallet">
+        <p
+        class="wallet"        
+        *ngFor="let wallet of fullUser.wallets; let i = index"        
+      >
+        {{ i }} - {{ wallet.ccy }} - {{ wallet.amount }}
+    </p>
+    </ul>
+</div>
