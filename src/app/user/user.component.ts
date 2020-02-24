@@ -5,6 +5,9 @@ import { UserService } from './user.service';
 import { Subscription } from 'rxjs';
 import { User } from '../shared/dto/user.model';
 import { Wallet } from '../shared/dto/wallet.model';
+import { CryptoService } from '../crypto/crypto.service';
+import { Candle } from '../shared/dto/candle.model';
+import { callbackify } from 'util';
 
 @Component({
   selector: 'app-user',
@@ -16,9 +19,18 @@ export class UserComponent implements OnInit, OnDestroy {
 
   private user: UserDto;
   private userWatcher: Subscription;
+  private bloombergWatcher: Subscription;
+  private bloombergCandle: Candle[];
   private fullUser: User;
 
-  constructor(private authService: AuthService, private userService: UserService) { }
+  constructor(private authService: AuthService,
+              private userService: UserService,
+              private cryptoService: CryptoService) {
+                this.bloombergWatcher = this.cryptoService.newBloombergCandles.subscribe(candle => {
+                  this.bloombergCandle = candle;
+                });
+                this.callBloomberg();
+               }
 
   ngOnInit() {
     this.user = this.authService.userNameDto;
@@ -31,8 +43,18 @@ export class UserComponent implements OnInit, OnDestroy {
     this.userService.getUserData(this.user.id);
   }
 
+  async callBloomberg() {
+    await this.cryptoService.getBloombergData();
+  }
+
   ngOnDestroy(): void {
     this.userWatcher.unsubscribe();
+    this.bloombergWatcher.unsubscribe();
+  }
+
+  valueOfCcy(ccy: string): number {
+    const candle: Candle = this.bloombergCandle.find(c => c.currencyPair.substr(0, ccy.length) === ccy);
+    return candle ? candle.close : 0;
   }
 
 }

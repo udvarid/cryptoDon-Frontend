@@ -1,11 +1,11 @@
-<div *ngIf="fullUser">
+<div *ngIf="fullUser && bloombergCandle">
     <p>You are {{ fullUser.fullname }}</p>
     <ul class="list-wallet">
         <p
         class="wallet"        
         *ngFor="let wallet of fullUser.wallets; let i = index"        
       >
-        {{ i }} - {{ wallet.ccy }} - {{ wallet.amount }}
+        {{ i }} - {{ wallet.ccy }} - {{ wallet.amount }} - {{ valueOfCcy(wallet.ccy) }} - {{ valueOfCcy(wallet.ccy) * wallet.amount}}
     </p>
     </ul>
 </div>
